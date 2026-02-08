@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post - Lorne Booker</title>
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
+
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /*-----------------------------------*\
+      #CUSTOM PROPERTY
+    \*-----------------------------------*/
+
+    :root {
+      --bg-gradient-onyx: linear-gradient(to bottom right, hsl(240, 1%, 25%) 3%, hsl(0, 0%, 19%) 97%);
+      --bg-gradient-jet: linear-gradient(to bottom right, hsla(240, 1%, 18%, 0.251) 0%, hsla(240, 2%, 11%, 0) 100%), hsl(240, 2%, 13%);
+      --bg-gradient-yellow-1: linear-gradient(to bottom right, hsl(45, 100%, 71%) 0%, hsla(36, 100%, 69%, 0) 50%);
+      --bg-gradient-yellow-2: linear-gradient(135deg, hsla(45, 100%, 71%, 0.251) 0%, hsla(35, 100%, 68%, 0) 59.86%), hsl(240, 2%, 13%);
+      --border-gradient-onyx: linear-gradient(to bottom right, hsl(0, 0%, 25%) 0%, hsla(0, 0%, 25%, 0) 50%);
+      --text-gradient-yellow: linear-gradient(to right, hsl(45, 100%, 72%), hsl(35, 100%, 68%));
+
+      --jet: hsl(0, 0%, 22%);
+      --onyx: hsl(240, 1%, 17%);
+      --eerie-black-1: hsl(240, 2%, 13%);
+      --eerie-black-2: hsl(240, 2%, 12%);
+      --smoky-black: hsl(0, 0%, 7%);
+      --white-1: hsl(0, 0%, 100%);
+      --white-2: hsl(0, 0%, 98%);
+      --orange-yellow-crayola: hsl(45, 100%, 72%);
+      --vegas-gold: hsl(45, 54%, 58%);
+      --light-gray: hsl(0, 0%, 84%);
+      --light-gray-70: hsla(0, 0%, 84%, 0.7);
+      --bittersweet-shimmer: hsl(0, 43%, 51%);
+
+      --ff-poppins: 'Poppins', sans-serif;
+
+      --fs-1: 24px;
+      --fs-2: 18px;
+      --fs-3: 17px;
+      --fs-4: 16px;
+      --fs-5: 15px;
+      --fs-6: 14px;
+      --fs-7: 13px;
+      --fs-8: 11px;
+
+      --fw-300: 300;
+      --fw-400: 400;
+      --fw-500: 500;
+      --fw-600: 600;
+
+      --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
+      --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.25);
+      --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.25);
+      --shadow-4: 0 25px 50px hsla(0, 0%, 0%, 0.15);
+      --shadow-5: 0 24px 80px hsla(0, 0%, 0%, 0.25);
+
+      --transition-1: 0.25s ease;
+      --transition-2: 0.5s ease-in-out;
+    }
+
+    /*-----------------------------------*\
+      #RESET
+    \*-----------------------------------*/
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a { text-decoration: none; }
+
+    li { list-style: none; }
+
+    img, ion-icon, a, button, time, span { display: block; }
+
+    button {
+      font: inherit;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    ::selection {
+      background: var(--orange-yellow-crayola);
+      color: var(--smoky-black);
+    }
+
+    :focus { outline-color: var(--orange-yellow-crayola); }
+
+    html { font-family: var(--ff-poppins); }
+
+    body { background: var(--smoky-black); }
+
+    /*-----------------------------------*\
+      #REUSED STYLE
+    \*-----------------------------------*/
+
+    .sidebar,
+    article {
+      background: var(--eerie-black-2);
+      border: 1px solid var(--jet);
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: var(--shadow-1);
+      z-index: 1;
+    }
+
+    .separator {
+      width: 100%;
+      height: 1px;
+      background: var(--jet);
+      margin: 16px 0;
+    }
+
+    .icon-box {
+      position: relative;
+      background: var(--border-gradient-onyx);
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      color: var(--orange-yellow-crayola);
+      box-shadow: var(--shadow-1);
+      z-index: 1;
+    }
+
+    .icon-box::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      background: var(--eerie-black-1);
+      border-radius: inherit;
+      z-index: -1;
+    }
+
+    .icon-box ion-icon { --ionicon-stroke-width: 35px; }
+
+    article { display: none; }
+
+    article.active {
+      display: block;
+      animation: fade 0.5s ease backwards;
+    }
+
+    @keyframes fade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .h2,
+    .h3,
+    .h4,
+    .h5 {
+      color: var(--white-2);
+      text-transform: capitalize;
+    }
+
+    .h2 { font-size: var(--fs-1); }
+
+    .h3 { font-size: var(--fs-2); }
+
+    .h4 { font-size: var(--fs-4); }
+
+    .h5 {
+      font-size: var(--fs-7);
+      font-weight: var(--fw-500);
+    }
+
+    .article-title {
+      position: relative;
+      padding-bottom: 7px;
+    }
+
+    .article-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 30px;
+      height: 3px;
+      background: var(--text-gradient-yellow);
+      border-radius: 3px;
+    }
+
+    /*-----------------------------------*\
+      #MAIN
+    \*-----------------------------------*/
+
+    main {
+      margin: 15px 12px;
+      margin-bottom: 75px;
+      min-width: 259px;
+    }
+
+    /*-----------------------------------*\
+      #SIDEBAR
+    \*-----------------------------------*/
+
+    .sidebar {
+      margin-bottom: 15px;
+      max-height: 112px;
+      overflow: hidden;
+      transition: var(--transition-2);
+    }
+
+    .sidebar.active { max-height: 405px; }
+
+    .sidebar-info {
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .avatar-box {
+      background: var(--bg-gradient-onyx);
+      border-radius: 20px;
+    }
+
+    .info-content .name {
+      color: var(--white-2);
+      font-size: var(--fs-3);
+      font-weight: var(--fw-500);
+      letter-spacing: -0.25px;
+      margin-bottom: 10px;
+    }
+
+    .info-content .title {
+      color: var(--white-1);
+      background: var(--onyx);
+      font-size: var(--fs-8);
+      font-weight: var(--fw-300);
+      width: max-content;
+      padding: 3px 12px;
+      border-radius: 8px;
+    }
+
+    .info_more-btn {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      border-radius: 0 15px;
+      font-size: 13px;
+      color: var(--orange-yellow-crayola);
+      background: var(--border-gradient-onyx);
+      padding: 10px;
+      box-shadow: var(--shadow-2);
+      transition: var(--transition-1);
+      z-index: 1;
+    }
+
+    .info_more-btn::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: var(--bg-gradient-jet);
+      transition: var(--transition-1);
+      z-index: -1;
+    }
+
+    .info_more-btn:hover,
+    .info_more-btn:focus { background: var(--bg-gradient-yellow-1); }
+
+    .info_more-btn:hover::before,
+    .info_more-btn:focus::before { background: var(--bg-gradient-yellow-2); }
+
+    .info_more-btn span { display: none; }
+
+    .sidebar-info_more {
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition-2);
+    }
+
+    .sidebar.active .sidebar-info_more {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .contacts-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .contact-item {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .contact-info {
+      max-width: calc(100% - 46px);
+      width: calc(100% - 46px);
+    }
+
+    .contact-title {
+      color: var(--light-gray-70);
+      font-size: var(--fs-8);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .contact-info :is(.contact-link, time, address) {
+      color: var(--white-2);
+      font-size: var(--fs-7);
+    }
+
+    .contact-info address { font-style: normal; }
+
+    .social-list {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 15px;
+      padding-bottom: 4px;
+      padding-left: 7px;
+    }
+
+    .social-item .social-link {
+      color: var(--light-gray-70);
+      font-size: 18px;
+    }
+
+    .social-item .social-link:hover { color: var(--light-gray); }
+
+    /*-----------------------------------*\
+      #NAVBAR
+    \*-----------------------------------*/
+
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: hsla(240, 1%, 17%, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--jet);
+      border-radius: 12px 12px 0 0;
+      box-shadow: var(--shadow-2);
+      z-index: 5;
+    }
+
+    .navbar-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .navbar-link {
+      color: var(--light-gray);
+      font-size: var(--fs-8);
+      padding: 20px 7px;
+      transition: color var(--transition-1);
+    }
+
+    .navbar-link:hover,
+    .navbar-link:focus { color: var(--light-gray-70); }
+
+    .navbar-link.active { color: var(--orange-yellow-crayola); }
+
+    /*-----------------------------------*\
+      #BLOG POST
+    \*-----------------------------------*/
+
+    .blog-post {
+      padding-bottom: 30px;
+    }
+
+    .blog-post-header {
+      margin-bottom: 30px;
+    }
+
+    .blog-post-title {
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .blog-post-meta {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .blog-post-category {
+      color: var(--orange-yellow-crayola);
+      font-size: var(--fs-6);
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+    }
+
+    .blog-post-date {
+      color: var(--light-gray-70);
+      font-size: var(--fs-6);
+      font-weight: var(--fw-300);
+    }
+
+    .blog-post-banner {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .blog-post-banner img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .blog-post-content {
+      color: var(--light-gray);
+      font-size: var(--fs-6);
+      font-weight: var(--fw-300);
+      line-height: 1.8;
+    }
+
+    .blog-post-content p {
+      margin-bottom: 20px;
+    }
+
+    .blog-post-content h3 {
+      color: var(--white-2);
+      font-size: var(--fs-3);
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    .blog-post-content h4 {
+      color: var(--white-2);
+      font-size: var(--fs-4);
+      margin-top: 25px;
+      margin-bottom: 12px;
+    }
+
+    .blog-post-content ul,
+    .blog-post-content ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .blog-post-content li {
+      margin-bottom: 10px;
+      display: list-item;
+    }
+
+    .blog-post-content ul li {
+      list-style: disc;
+    }
+
+    .blog-post-content ol li {
+      list-style: decimal;
+    }
+
+    .blog-post-content a {
+      color: var(--orange-yellow-crayola);
+      transition: var(--transition-1);
+    }
+
+    .blog-post-content a:hover {
+      color: var(--vegas-gold);
+    }
+
+    .blog-post-content blockquote {
+      border-left: 3px solid var(--orange-yellow-crayola);
+      padding-left: 20px;
+      margin: 25px 0;
+      font-style: italic;
+      color: var(--white-2);
+    }
+
+    .blog-post-content code {
+      background: var(--jet);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: var(--fs-7);
+      color: var(--orange-yellow-crayola);
+    }
+
+    .blog-post-content pre {
+      background: var(--jet);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+
+    .blog-post-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange-yellow-crayola);
+      font-size: var(--fs-6);
+      margin-bottom: 20px;
+      transition: var(--transition-1);
+    }
+
+    .back-link:hover {
+      color: var(--vegas-gold);
+    }
+
+    /*-----------------------------------*\
+      #RESPONSIVE
+    \*-----------------------------------*/
+
+    @media (min-width: 450px) {
+      .blog-post-banner { height: auto; }
+    }
+
+    @media (min-width: 580px) {
+      .sidebar, article {
+        width: 520px;
+        margin-inline: auto;
+        padding: 30px;
+      }
+
+      .article-title {
+        font-weight: var(--fw-600);
+        padding-bottom: 15px;
+      }
+
+      .article-title::after {
+        width: 40px;
+        height: 5px;
+      }
+
+      .icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 18px;
+      }
+
+      main {
+        margin-top: 60px;
+        margin-bottom: 100px;
+      }
+
+      .sidebar {
+        max-height: 180px;
+        margin-bottom: 30px;
+      }
+
+      .sidebar.active { max-height: 584px; }
+
+      .sidebar-info { gap: 25px; }
+
+      .avatar-box { border-radius: 30px; }
+
+      .avatar-box img { width: 120px; }
+
+      .info-content .name { margin-bottom: 15px; }
+
+      .info-content .title { padding: 5px 18px; }
+
+      .info_more-btn {
+        top: -30px;
+        right: -30px;
+        padding: 10px 15px;
+      }
+
+      .info_more-btn span {
+        display: block;
+        font-size: var(--fs-8);
+      }
+
+      .info_more-btn ion-icon { display: none; }
+
+      .separator { margin: 32px 0; }
+
+      .contacts-list { gap: 20px; }
+
+      .contact-info {
+        max-width: calc(100% - 64px);
+        width: calc(100% - 64px);
+      }
+
+      .navbar { border-radius: 20px 20px 0 0; }
+
+      .navbar-list { gap: 20px; }
+
+      .navbar-link { --fs-8: 14px; }
+
+      .blog-post-content { font-size: var(--fs-5); }
+    }
+
+    @media (min-width: 768px) {
+      .sidebar, article { width: 700px; }
+
+      .contacts-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 15px;
+      }
+
+      .navbar-link { --fs-8: 15px; }
+
+      .article-title { padding-bottom: 20px; }
+    }
+
+    @media (min-width: 1024px) {
+      :root {
+        --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.125);
+        --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.125);
+        --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.125);
+      }
+
+      .sidebar, article {
+        width: 950px;
+        box-shadow: var(--shadow-5);
+      }
+
+      main { margin-bottom: 60px; }
+
+      .main-content {
+        position: relative;
+        width: max-content;
+        margin: auto;
+      }
+
+      .navbar {
+        position: absolute;
+        bottom: auto;
+        top: 0;
+        left: auto;
+        right: 0;
+        width: max-content;
+        border-radius: 0 20px;
+        padding: 0 20px;
+        box-shadow: none;
+      }
+
+      .navbar-list {
+        gap: 30px;
+        padding: 0 20px;
+      }
+
+      .navbar-link { font-weight: var(--fw-500); }
+    }
+
+    @media (min-width: 1250px) {
+      body::-webkit-scrollbar { width: 20px; }
+
+      body::-webkit-scrollbar-track { background: var(--smoky-black); }
+
+      body::-webkit-scrollbar-thumb {
+        border: 5px solid var(--smoky-black);
+        background: hsla(0, 0%, 100%, 0.1);
+        border-radius: 20px;
+        box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.11),
+                    inset -1px -1px 0 hsla(0, 0%, 100%, 0.11);
+      }
+
+      body::-webkit-scrollbar-thumb:hover { background: hsla(0, 0%, 100%, 0.15); }
+
+      body::-webkit-scrollbar-button { height: 60px; }
+
+      .sidebar, article { width: auto; }
+
+      article { min-height: 100%; }
+
+      main {
+        max-width: 1200px;
+        margin-inline: auto;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        gap: 25px;
+      }
+
+      .main-content {
+        min-width: 75%;
+        width: 75%;
+        margin: 0;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 60px;
+        max-height: max-content;
+        height: 100%;
+        margin-bottom: 0;
+        padding-top: 60px;
+        z-index: 1;
+      }
+
+      .sidebar-info { flex-direction: column; }
+
+      .avatar-box img { width: 150px; }
+
+      .info-content .name {
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .info-content .title { margin: auto; }
+
+      .info_more-btn { display: none; }
+
+      .sidebar-info_more {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .contacts-list { grid-template-columns: 1fr; }
+
+      .contact-info :is(.contact-link) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .contact-info :is(.contact-link, time, address) {
+        --fs-7: 14px;
+        font-weight: var(--fw-300);
+      }
+
+      .separator:last-of-type {
+        margin: 15px 0;
+        opacity: 0;
+      }
+
+      .social-list { justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <aside class="sidebar" data-sidebar>
+
+      <div class="sidebar-info">
+
+        <figure class="avatar-box">
+          <img src="./assets/images/memoji.png" alt="Lorne Booker" width="80">
+        </figure>
+
+        <div class="info-content">
+          <h1 class="name" title="Lorne Booker">Lorne Booker</h1>
+
+          <p class="title">Systems Manager</p>
+        </div>
+
+        <button class="info_more-btn" data-sidebar-btn>
+          <span>Show Contacts</span>
+
+          <ion-icon name="chevron-down"></ion-icon>
+        </button>
+
+      </div>
+
+      <div class="sidebar-info_more">
+
+        <div class="separator"></div>
+
+        <ul class="contacts-list">
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Email</p>
+
+              <a href="mailto:me@lornebooker.com" class="contact-link">me@lornebooker.com</a>
+            </div>
+
+          </li>
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Location</p>
+
+              <address>Portsmouth, Hampshire, UK</address>
+            </div>
+
+          </li>
+
+        </ul>
+
+        <div class="separator"></div>
+
+        <ul class="social-list">
+
+          <li class="social-item">
+            <a href="https://www.linkedin.com/in/lornebooker/" class="social-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </aside>
+
+    <div class="main-content">
+
+      <nav class="navbar">
+
+        <ul class="navbar-list">
+
+          <li class="navbar-item">
+            <button class="navbar-link" onclick="window.location.href='index.html'">About</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" onclick="window.location.href='index.html#resume'">Resume</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link active" onclick="window.location.href='blog.html'">Blog</button>
+          </li>
+
+        </ul>
+
+      </nav>
+
+      <article class="blog-post active" data-page="blog-post">
+
+        <a href="blog.html" class="back-link">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          <span>Back to Blog</span>
+        </a>
+
+        <div class="blog-post-header">
+          <h2 class="h2 article-title blog-post-title">Planning a Successful Cloud Migration</h2>
+
+          <div class="blog-post-meta">
+            <span class="blog-post-category">Infrastructure</span>
+            <time class="blog-post-date" datetime="2025-01-15">January 15, 2025</time>
+          </div>
+        </div>
+
+        <figure class="blog-post-banner">
+          <img src="./assets/images/blog-1.jpg" alt="Cloud Migration Strategy" loading="lazy">
+        </figure>
+
+        <div class="blog-post-content">
+          <p>
+            Cloud migration has become an essential step for educational institutions looking to modernize their infrastructure, improve flexibility, and reduce on-premises maintenance overhead. However, a successful migration requires careful planning and execution.
+          </p>
+
+          <h3>Understanding Your Current Environment</h3>
+
+          <p>
+            Before beginning any migration, it's crucial to conduct a comprehensive audit of your existing infrastructure. This includes documenting all servers, applications, dependencies, and user workflows that rely on your current systems.
+          </p>
+
+          <p>
+            In my experience migrating from Active Directory to Microsoft Intune for over 500 devices, this initial assessment phase proved invaluable. We discovered several legacy applications that needed special consideration and dependencies that weren't immediately obvious.
+          </p>
+
+          <h3>Key Considerations for Education Settings</h3>
+
+          <p>
+            Educational institutions have unique requirements that differ from corporate environments. Key factors to consider include:
+          </p>
+
+          <ul>
+            <li>Term schedules and minimal disruption during teaching periods</li>
+            <li>Student data protection and GDPR compliance</li>
+            <li>Varying technical literacy levels among staff</li>
+            <li>Budget constraints and cost optimization</li>
+            <li>Integration with existing educational platforms</li>
+          </ul>
+
+          <h4>Choosing the Right Migration Strategy</h4>
+
+          <p>
+            There are several migration approaches to consider. The "lift and shift" method involves moving systems as-is to the cloud, which is faster but may not take full advantage of cloud-native features. Alternatively, a phased approach allows for gradual migration and testing, reducing risk but extending the timeline.
+          </p>
+
+          <blockquote>
+            "The key to a successful migration is not speed, but thorough preparation and clear communication with all stakeholders."
+          </blockquote>
+
+          <h3>Implementation Best Practices</h3>
+
+          <p>
+            When we rolled out Intune across our school, we learned several important lessons:
+          </p>
+
+          <ol>
+            <li>Start with a pilot group of tech-savvy staff members</li>
+            <li>Document every step and create clear guides for end users</li>
+            <li>Schedule migrations during holiday periods where possible</li>
+            <li>Provide hands-on training sessions, not just written documentation</li>
+            <li>Set up robust support channels for the transition period</li>
+          </ol>
+
+          <p>
+            Testing is critical. We established a test environment that mirrored our production setup, allowing us to identify and resolve issues before they affected users. This included testing device enrollment, policy application, and application deployment.
+          </p>
+
+          <h3>Managing Change and User Adoption</h3>
+
+          <p>
+            Technical success is only half the battle. User adoption is equally important. Regular communication about the benefits, timeline, and support available can significantly reduce resistance to change.
+          </p>
+
+          <p>
+            We held weekly drop-in sessions where staff could ask questions and get hands-on help. This approach helped build confidence and ensured smoother adoption across the organization.
+          </p>
+
+          <h3>Post-Migration Optimization</h3>
+
+          <p>
+            After migration, ongoing monitoring and optimization are essential. Cloud platforms provide extensive analytics that can help identify performance issues, security concerns, and opportunities for cost reduction.
+          </p>
+
+          <p>
+            Regular reviews of your cloud setup ensure you're getting the best value and that security policies remain appropriate as your needs evolve.
+          </p>
+
+          <h3>Conclusion</h3>
+
+          <p>
+            Cloud migration in education requires careful planning, clear communication, and a phased approach. By understanding your environment, choosing the right strategy, and prioritizing user adoption, you can successfully modernize your infrastructure while minimizing disruption to teaching and learning.
+          </p>
+        </div>
+
+      </article>
+
+    </div>
+
+  </main>
+
+  <script>
+    'use strict';
+
+    const sidebar = document.querySelector("[data-sidebar]");
+    const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+
+    if (sidebarBtn) {
+      sidebarBtn.addEventListener("click", function () { 
+        sidebar.classList.toggle("active"); 
+      });
+    }
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
